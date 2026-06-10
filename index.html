@@ -1,0 +1,1051 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Stand Up · Stop Bullying</title>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --purple:    #5b21b6;
+      --purple-lt: #7c3aed;
+      --purple-bg: #f5f3ff;
+      --orange:    #ea580c;
+      --orange-lt: #fb923c;
+      --cyan:      #0891b2;
+      --cyan-lt:   #22d3ee;
+      --navy:      #1e1b4b;
+      --navy-mid:  #312e81;
+      --text:      #1e1b4b;
+      --text-mid:  #4338ca;
+      --text-muted:#64748b;
+      --white:     #ffffff;
+      --bg-soft:   #f8f6ff;
+      --border:    #e2e8f0;
+      --radius:    14px;
+      --shadow:    0 4px 24px rgba(91,33,182,.10);
+      --shadow-lg: 0 12px 40px rgba(91,33,182,.18);
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+      color: var(--text);
+      background: var(--white);
+      line-height: 1.6;
+      overflow-x: hidden;
+    }
+
+    /* ── NAV ─────────────────────────────── */
+    nav {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 999;
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 0 5%;
+      height: 68px;
+      background: rgba(255,255,255,.92);
+      backdrop-filter: blur(14px);
+      border-bottom: 1px solid rgba(91,33,182,.08);
+      transition: box-shadow .3s;
+    }
+    nav.scrolled { box-shadow: 0 2px 20px rgba(91,33,182,.12); }
+
+    .nav-logo {
+      display: flex; align-items: center; gap: 10px;
+      font-size: 1.25rem; font-weight: 800; color: var(--purple);
+      text-decoration: none;
+    }
+    .nav-logo .dot {
+      width: 32px; height: 32px; border-radius: 50%;
+      background: linear-gradient(135deg, var(--purple), var(--orange));
+      display: flex; align-items: center; justify-content: center;
+      color: #fff; font-size: .9rem; font-weight: 900;
+    }
+
+    .nav-links {
+      display: flex; gap: 32px; list-style: none;
+    }
+    .nav-links a {
+      text-decoration: none; color: var(--text);
+      font-size: .9rem; font-weight: 600;
+      padding: 4px 0; border-bottom: 2px solid transparent;
+      transition: color .2s, border-color .2s;
+    }
+    .nav-links a:hover { color: var(--purple); border-color: var(--purple); }
+
+    .nav-cta {
+      padding: 10px 22px; background: var(--purple);
+      color: #fff; font-size: .88rem; font-weight: 700;
+      border-radius: 50px; text-decoration: none;
+      transition: background .2s, transform .1s;
+    }
+    .nav-cta:hover { background: var(--purple-lt); transform: translateY(-1px); }
+
+    .hamburger {
+      display: none; flex-direction: column; gap: 5px;
+      cursor: pointer; background: none; border: none; padding: 4px;
+    }
+    .hamburger span {
+      display: block; width: 24px; height: 2.5px;
+      background: var(--navy); border-radius: 2px;
+      transition: all .3s;
+    }
+    .hamburger.open span:nth-child(1) { transform: translateY(7.5px) rotate(45deg); }
+    .hamburger.open span:nth-child(2) { opacity: 0; }
+    .hamburger.open span:nth-child(3) { transform: translateY(-7.5px) rotate(-45deg); }
+
+    .mobile-menu {
+      display: none;
+      position: fixed; top: 68px; left: 0; right: 0;
+      background: #fff; border-bottom: 1px solid var(--border);
+      padding: 20px 5%; z-index: 998;
+      flex-direction: column; gap: 4px;
+      box-shadow: 0 8px 24px rgba(0,0,0,.08);
+    }
+    .mobile-menu.open { display: flex; }
+    .mobile-menu a {
+      padding: 12px 16px; color: var(--text);
+      font-size: 1rem; font-weight: 600;
+      text-decoration: none; border-radius: 8px;
+      transition: background .15s;
+    }
+    .mobile-menu a:hover { background: var(--purple-bg); color: var(--purple); }
+    .mobile-menu .m-cta {
+      margin-top: 8px; text-align: center;
+      background: var(--purple); color: #fff; border-radius: 50px;
+    }
+    .mobile-menu .m-cta:hover { background: var(--purple-lt); }
+
+    /* ── HERO ────────────────────────────── */
+    #home {
+      min-height: 100vh;
+      display: flex; align-items: center;
+      padding: 100px 5% 60px;
+      background: linear-gradient(135deg, #0f0a2b 0%, #1e1b4b 45%, #2d1e6e 100%);
+      position: relative; overflow: hidden;
+    }
+
+    .hero-shapes {
+      position: absolute; inset: 0; pointer-events: none; overflow: hidden;
+    }
+    .hero-shapes span {
+      position: absolute; border-radius: 50%;
+      background: radial-gradient(circle, rgba(124,58,237,.35) 0%, transparent 70%);
+      animation: float 8s ease-in-out infinite;
+    }
+    .hero-shapes span:nth-child(1) { width: 600px; height: 600px; top: -200px; right: -100px; }
+    .hero-shapes span:nth-child(2) { width: 400px; height: 400px; bottom: -150px; left: 10%; animation-delay: -3s; background: radial-gradient(circle, rgba(234,88,12,.25) 0%, transparent 70%); }
+    .hero-shapes span:nth-child(3) { width: 300px; height: 300px; top: 30%; left: 50%; animation-delay: -5s; background: radial-gradient(circle, rgba(8,145,178,.2) 0%, transparent 70%); }
+    @keyframes float {
+      0%, 100% { transform: translateY(0) scale(1); }
+      50% { transform: translateY(-30px) scale(1.04); }
+    }
+
+    .hero-inner {
+      max-width: 1200px; margin: 0 auto; width: 100%;
+      display: grid; grid-template-columns: 1fr 1fr;
+      gap: 60px; align-items: center; position: relative; z-index: 1;
+    }
+
+    .hero-badge {
+      display: inline-flex; align-items: center; gap: 8px;
+      padding: 6px 14px; background: rgba(124,58,237,.25);
+      border: 1px solid rgba(124,58,237,.4); border-radius: 50px;
+      font-size: .8rem; font-weight: 700; color: #c4b5fd;
+      text-transform: uppercase; letter-spacing: 1px; margin-bottom: 20px;
+    }
+    .hero-badge .pulse {
+      width: 8px; height: 8px; border-radius: 50%; background: #22d3ee;
+      animation: pulse 2s ease-in-out infinite;
+    }
+    @keyframes pulse { 0%,100%{opacity:1;transform:scale(1)} 50%{opacity:.5;transform:scale(.8)} }
+
+    .hero h1 {
+      font-size: clamp(2.4rem, 5vw, 3.8rem);
+      font-weight: 900; line-height: 1.1;
+      color: #fff; margin-bottom: 22px;
+    }
+    .hero h1 em {
+      font-style: normal;
+      background: linear-gradient(90deg, #fb923c, #f472b6);
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .hero p {
+      font-size: 1.1rem; color: #c4b5fd; line-height: 1.7;
+      margin-bottom: 36px; max-width: 480px;
+    }
+
+    .hero-buttons { display: flex; gap: 14px; flex-wrap: wrap; }
+    .btn-hero-primary {
+      padding: 15px 32px; background: linear-gradient(135deg, var(--orange), var(--orange-lt));
+      color: #fff; font-size: 1rem; font-weight: 800;
+      border-radius: 50px; text-decoration: none; border: none; cursor: pointer;
+      box-shadow: 0 8px 24px rgba(234,88,12,.4);
+      transition: transform .2s, box-shadow .2s;
+    }
+    .btn-hero-primary:hover { transform: translateY(-2px); box-shadow: 0 12px 32px rgba(234,88,12,.5); }
+    .btn-hero-secondary {
+      padding: 15px 32px; background: rgba(255,255,255,.08);
+      color: #fff; font-size: 1rem; font-weight: 700;
+      border-radius: 50px; text-decoration: none;
+      border: 1.5px solid rgba(255,255,255,.25);
+      transition: background .2s, border-color .2s;
+    }
+    .btn-hero-secondary:hover { background: rgba(255,255,255,.15); border-color: rgba(255,255,255,.5); }
+
+    .hero-visual {
+      display: flex; flex-direction: column; gap: 16px;
+    }
+    .hero-card {
+      background: rgba(255,255,255,.07); border: 1px solid rgba(255,255,255,.12);
+      border-radius: var(--radius); padding: 20px 24px;
+      backdrop-filter: blur(12px);
+      display: flex; align-items: center; gap: 16px;
+      transform: translateX(40px); opacity: 0;
+      animation: slideIn .6s ease forwards;
+    }
+    .hero-card:nth-child(2) { animation-delay: .15s; }
+    .hero-card:nth-child(3) { animation-delay: .3s; }
+    @keyframes slideIn {
+      to { transform: translateX(0); opacity: 1; }
+    }
+    .hc-icon {
+      width: 48px; height: 48px; border-radius: 12px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1.4rem; flex-shrink: 0;
+    }
+    .hc-body h4 { font-size: .95rem; font-weight: 700; color: #fff; margin-bottom: 3px; }
+    .hc-body p  { font-size: .82rem; color: #a5b4fc; }
+
+    /* ── STATS ───────────────────────────── */
+    #stats {
+      padding: 70px 5%;
+      background: var(--white);
+    }
+    .stats-inner {
+      max-width: 1100px; margin: 0 auto;
+      display: grid; grid-template-columns: repeat(4, 1fr); gap: 24px;
+    }
+    .stat-box {
+      text-align: center; padding: 32px 20px;
+      border-radius: var(--radius);
+      border: 1px solid var(--border);
+      background: var(--white);
+      box-shadow: var(--shadow);
+      transition: transform .25s, box-shadow .25s;
+    }
+    .stat-box:hover { transform: translateY(-4px); box-shadow: var(--shadow-lg); }
+    .stat-num {
+      font-size: 2.8rem; font-weight: 900; line-height: 1;
+      background: linear-gradient(135deg, var(--purple), var(--cyan));
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+    .stat-label { font-size: .88rem; color: var(--text-muted); margin-top: 8px; font-weight: 500; }
+
+    /* ── SECTION SCAFFOLDING ─────────────── */
+    section { padding: 90px 5%; }
+    .section-inner { max-width: 1100px; margin: 0 auto; }
+    .section-label {
+      display: inline-block; font-size: .78rem; font-weight: 800;
+      text-transform: uppercase; letter-spacing: 2px;
+      color: var(--purple); margin-bottom: 14px;
+    }
+    .section-title {
+      font-size: clamp(1.8rem, 4vw, 2.6rem); font-weight: 900;
+      color: var(--navy); line-height: 1.15; margin-bottom: 16px;
+    }
+    .section-title em {
+      font-style: normal; color: var(--purple);
+    }
+    .section-sub {
+      font-size: 1.05rem; color: var(--text-muted); max-width: 580px; margin-bottom: 52px;
+    }
+
+    /* fade-up on scroll */
+    .fade-up {
+      opacity: 0; transform: translateY(28px);
+      transition: opacity .55s ease, transform .55s ease;
+    }
+    .fade-up.visible { opacity: 1; transform: translateY(0); }
+    .fade-up.delay-1 { transition-delay: .1s; }
+    .fade-up.delay-2 { transition-delay: .2s; }
+    .fade-up.delay-3 { transition-delay: .3s; }
+    .fade-up.delay-4 { transition-delay: .4s; }
+
+    /* ── TYPES OF BULLYING ───────────────── */
+    #types { background: var(--bg-soft); }
+    .types-grid {
+      display: grid; grid-template-columns: repeat(2, 1fr); gap: 22px;
+    }
+    .type-card {
+      background: #fff; border-radius: var(--radius);
+      padding: 30px 28px; border: 1px solid var(--border);
+      box-shadow: var(--shadow);
+      display: flex; gap: 18px;
+      transition: transform .25s, box-shadow .25s;
+    }
+    .type-card:hover { transform: translateY(-3px); box-shadow: var(--shadow-lg); }
+    .tc-icon {
+      width: 54px; height: 54px; border-radius: 14px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1.6rem; flex-shrink: 0;
+    }
+    .type-card:nth-child(1) .tc-icon { background: #fef3c7; }
+    .type-card:nth-child(2) .tc-icon { background: #ede9fe; }
+    .type-card:nth-child(3) .tc-icon { background: #dbeafe; }
+    .type-card:nth-child(4) .tc-icon { background: #fce7f3; }
+    .tc-body h3 { font-size: 1.05rem; font-weight: 800; margin-bottom: 6px; }
+    .tc-body p  { font-size: .9rem; color: var(--text-muted); line-height: 1.5; }
+    .tc-body ul {
+      margin-top: 10px; padding-left: 16px;
+      font-size: .85rem; color: var(--text-muted); display: flex; flex-direction: column; gap: 3px;
+    }
+
+    /* ── SIGNS ───────────────────────────── */
+    #signs { background: var(--white); }
+    .signs-layout {
+      display: grid; grid-template-columns: 1fr 1fr; gap: 60px; align-items: start;
+    }
+    .accordion { display: flex; flex-direction: column; gap: 12px; }
+    .acc-item {
+      border: 1px solid var(--border); border-radius: var(--radius);
+      overflow: hidden; transition: box-shadow .2s;
+    }
+    .acc-item:focus-within, .acc-item.open { box-shadow: var(--shadow); border-color: #c4b5fd; }
+    .acc-trigger {
+      width: 100%; text-align: left; background: none; border: none; cursor: pointer;
+      padding: 18px 20px;
+      display: flex; justify-content: space-between; align-items: center;
+      font-size: .95rem; font-weight: 700; color: var(--navy);
+      transition: background .15s;
+    }
+    .acc-trigger:hover { background: var(--purple-bg); }
+    .acc-trigger .chevron {
+      width: 20px; height: 20px; border-radius: 50%;
+      background: var(--purple-bg); color: var(--purple);
+      display: flex; align-items: center; justify-content: center;
+      font-size: .75rem; transition: transform .25s, background .15s;
+      flex-shrink: 0;
+    }
+    .acc-item.open .chevron { transform: rotate(180deg); background: var(--purple); color: #fff; }
+    .acc-body {
+      max-height: 0; overflow: hidden;
+      transition: max-height .35s ease, padding .35s ease;
+      padding: 0 20px;
+      font-size: .9rem; color: var(--text-muted); line-height: 1.6;
+    }
+    .acc-item.open .acc-body { max-height: 300px; padding: 0 20px 18px; }
+
+    .signs-aside {
+      background: linear-gradient(135deg, var(--navy), var(--navy-mid));
+      border-radius: 20px; padding: 36px 32px; color: #fff;
+    }
+    .signs-aside h3 { font-size: 1.3rem; font-weight: 800; margin-bottom: 6px; }
+    .signs-aside p  { font-size: .9rem; color: #a5b4fc; margin-bottom: 24px; }
+    .help-step {
+      display: flex; gap: 14px; align-items: flex-start; margin-bottom: 20px;
+    }
+    .step-num {
+      width: 32px; height: 32px; border-radius: 50%;
+      background: rgba(124,58,237,.4); border: 1.5px solid #7c3aed;
+      display: flex; align-items: center; justify-content: center;
+      font-size: .8rem; font-weight: 800; flex-shrink: 0; margin-top: 2px;
+    }
+    .help-step h4 { font-size: .95rem; font-weight: 700; margin-bottom: 3px; }
+    .help-step p  { font-size: .83rem; color: #a5b4fc; }
+
+    /* ── WHO TO HELP (TABS) ─────────────── */
+    #help { background: var(--bg-soft); }
+    .tabs-nav {
+      display: flex; gap: 8px; margin-bottom: 32px; flex-wrap: wrap;
+    }
+    .tab-btn {
+      padding: 10px 22px; border-radius: 50px; font-size: .9rem; font-weight: 700;
+      border: 1.5px solid var(--border); background: #fff; color: var(--text-muted);
+      cursor: pointer; transition: all .2s;
+    }
+    .tab-btn.active, .tab-btn:hover {
+      background: var(--purple); color: #fff; border-color: var(--purple);
+    }
+    .tab-panel { display: none; }
+    .tab-panel.active { display: grid; grid-template-columns: repeat(3,1fr); gap: 20px; }
+    .tip-card {
+      background: #fff; border-radius: var(--radius);
+      padding: 26px 22px; border: 1px solid var(--border);
+      box-shadow: var(--shadow);
+    }
+    .tip-icon { font-size: 1.8rem; margin-bottom: 12px; }
+    .tip-card h4 { font-size: .95rem; font-weight: 800; margin-bottom: 8px; }
+    .tip-card p  { font-size: .87rem; color: var(--text-muted); line-height: 1.5; }
+
+    /* ── PLEDGE ──────────────────────────── */
+    #pledge {
+      background: linear-gradient(135deg, #0f0a2b 0%, #1e1b4b 100%);
+      padding: 90px 5%;
+    }
+    #pledge .section-inner { max-width: 720px; text-align: center; }
+    #pledge .section-title { color: #fff; }
+    #pledge .section-sub   { color: #a5b4fc; margin: 0 auto 40px; }
+
+    .pledge-box {
+      background: rgba(255,255,255,.06); border: 1px solid rgba(255,255,255,.12);
+      border-radius: 20px; padding: 36px 40px; backdrop-filter: blur(10px);
+    }
+    .pledge-text {
+      font-size: 1.05rem; color: #e0e7ff; line-height: 1.7;
+      border-left: 3px solid var(--orange-lt); padding-left: 16px; text-align: left;
+      margin-bottom: 28px; font-style: italic;
+    }
+    .pledge-form { display: flex; gap: 12px; flex-wrap: wrap; }
+    .pledge-form input {
+      flex: 1; min-width: 200px; padding: 14px 18px;
+      background: rgba(255,255,255,.08); border: 1px solid rgba(255,255,255,.18);
+      border-radius: 10px; color: #fff; font-size: 1rem;
+      outline: none; transition: border-color .2s;
+    }
+    .pledge-form input::placeholder { color: #7c7fa8; }
+    .pledge-form input:focus { border-color: #c4b5fd; }
+    .pledge-form button {
+      padding: 14px 30px; background: linear-gradient(135deg, var(--orange), var(--orange-lt));
+      color: #fff; font-size: .95rem; font-weight: 800;
+      border: none; border-radius: 10px; cursor: pointer;
+      transition: transform .15s, box-shadow .15s;
+      white-space: nowrap;
+    }
+    .pledge-form button:hover { transform: translateY(-2px); box-shadow: 0 8px 24px rgba(234,88,12,.4); }
+    .pledge-confirm {
+      display: none; text-align: center; padding: 20px 0;
+    }
+    .pledge-confirm .checkmark {
+      width: 64px; height: 64px; border-radius: 50%;
+      background: linear-gradient(135deg, #22c55e, #16a34a);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1.8rem; margin: 0 auto 16px;
+      animation: popIn .4s cubic-bezier(.68,-.55,.27,1.55);
+    }
+    @keyframes popIn {
+      from { transform: scale(0); } to { transform: scale(1); }
+    }
+    .pledge-confirm h3 { color: #fff; font-size: 1.2rem; margin-bottom: 6px; }
+    .pledge-confirm p  { color: #a5b4fc; font-size: .9rem; }
+    .pledgers-count {
+      margin-top: 28px; color: #a5b4fc; font-size: .88rem;
+    }
+    .pledgers-count strong { color: #c4b5fd; }
+
+    /* ── RESOURCES ───────────────────────── */
+    #resources { background: var(--white); }
+    .resources-grid {
+      display: grid; grid-template-columns: repeat(3,1fr); gap: 22px;
+    }
+    .res-card {
+      border-radius: var(--radius); padding: 28px 24px;
+      border: 1px solid var(--border); box-shadow: var(--shadow);
+      transition: transform .25s, box-shadow .25s;
+      position: relative; overflow: hidden;
+    }
+    .res-card::before {
+      content: ''; position: absolute; top: 0; left: 0; right: 0;
+      height: 4px;
+    }
+    .res-card:nth-child(1)::before { background: linear-gradient(90deg, var(--purple), var(--purple-lt)); }
+    .res-card:nth-child(2)::before { background: linear-gradient(90deg, var(--orange), var(--orange-lt)); }
+    .res-card:nth-child(3)::before { background: linear-gradient(90deg, var(--cyan), var(--cyan-lt)); }
+    .res-card:nth-child(4)::before { background: linear-gradient(90deg, #ec4899, #f472b6); }
+    .res-card:nth-child(5)::before { background: linear-gradient(90deg, #16a34a, #4ade80); }
+    .res-card:nth-child(6)::before { background: linear-gradient(90deg, #dc2626, #f87171); }
+    .res-card:hover { transform: translateY(-4px); box-shadow: var(--shadow-lg); }
+    .res-icon { font-size: 2rem; margin-bottom: 14px; }
+    .res-card h3 { font-size: 1rem; font-weight: 800; margin-bottom: 6px; }
+    .res-card p  { font-size: .85rem; color: var(--text-muted); margin-bottom: 14px; line-height: 1.5; }
+    .res-phone {
+      display: inline-flex; align-items: center; gap: 7px;
+      font-size: .9rem; font-weight: 800; color: var(--purple);
+      text-decoration: none; padding: 8px 14px;
+      background: var(--purple-bg); border-radius: 8px;
+      transition: background .15s;
+    }
+    .res-phone:hover { background: #ddd6fe; }
+
+    /* ── FOOTER ──────────────────────────── */
+    footer {
+      background: var(--navy);
+      color: #a5b4fc; padding: 56px 5% 32px;
+    }
+    .footer-inner {
+      max-width: 1100px; margin: 0 auto;
+      display: grid; grid-template-columns: 1.8fr 1fr 1fr; gap: 48px;
+    }
+    .footer-brand .logo {
+      display: flex; align-items: center; gap: 10px;
+      font-size: 1.2rem; font-weight: 800; color: #fff;
+      text-decoration: none; margin-bottom: 14px;
+    }
+    .footer-brand p { font-size: .88rem; line-height: 1.6; max-width: 300px; }
+    .footer-col h4 { color: #fff; font-size: .92rem; font-weight: 700; margin-bottom: 16px; }
+    .footer-col ul { list-style: none; display: flex; flex-direction: column; gap: 10px; }
+    .footer-col a {
+      color: #a5b4fc; text-decoration: none; font-size: .88rem;
+      transition: color .2s;
+    }
+    .footer-col a:hover { color: #c4b5fd; }
+    .footer-bottom {
+      max-width: 1100px; margin: 40px auto 0;
+      padding-top: 24px; border-top: 1px solid rgba(165,180,252,.15);
+      display: flex; justify-content: space-between; align-items: center;
+      flex-wrap: wrap; gap: 12px;
+      font-size: .82rem; color: #7c7fa8;
+    }
+    .footer-bottom strong { color: #a5b4fc; }
+
+    /* ── CRISIS BANNER ───────────────────── */
+    .crisis-bar {
+      position: fixed; bottom: 24px; right: 24px; z-index: 990;
+      background: linear-gradient(135deg, #dc2626, #ef4444);
+      color: #fff; border-radius: 14px; padding: 14px 20px;
+      box-shadow: 0 8px 28px rgba(220,38,38,.4);
+      display: flex; align-items: center; gap: 12px;
+      max-width: 280px; font-size: .88rem; font-weight: 600;
+      cursor: pointer; transition: transform .2s, box-shadow .2s;
+      text-decoration: none;
+    }
+    .crisis-bar:hover { transform: translateY(-2px); box-shadow: 0 12px 36px rgba(220,38,38,.5); }
+    .crisis-bar .crisis-icon { font-size: 1.4rem; flex-shrink: 0; }
+    .crisis-bar small { display: block; font-size: .78rem; opacity: .85; font-weight: 400; margin-top: 2px; }
+    .crisis-close {
+      position: absolute; top: -8px; right: -8px;
+      width: 22px; height: 22px; border-radius: 50%;
+      background: #fff; color: #dc2626; border: none; cursor: pointer;
+      font-size: .7rem; font-weight: 800; display: flex; align-items: center; justify-content: center;
+      box-shadow: 0 2px 6px rgba(0,0,0,.2);
+    }
+
+    /* ── RESPONSIVE ──────────────────────── */
+    @media (max-width: 1024px) {
+      .hero-inner        { grid-template-columns: 1fr; gap: 40px; }
+      .hero-visual       { display: none; }
+      .stats-inner       { grid-template-columns: repeat(2,1fr); }
+      .signs-layout      { grid-template-columns: 1fr; }
+      .footer-inner      { grid-template-columns: 1fr 1fr; }
+    }
+    @media (max-width: 768px) {
+      .nav-links, .nav-cta { display: none; }
+      .hamburger { display: flex; }
+      .types-grid        { grid-template-columns: 1fr; }
+      .tab-panel.active  { grid-template-columns: 1fr; }
+      .resources-grid    { grid-template-columns: 1fr; }
+      .footer-inner      { grid-template-columns: 1fr; gap: 32px; }
+      .hero h1           { font-size: 2.2rem; }
+      .pledge-box        { padding: 28px 20px; }
+    }
+    @media (max-width: 480px) {
+      section            { padding: 70px 5%; }
+      .stats-inner       { grid-template-columns: 1fr 1fr; gap: 14px; }
+      .stat-num          { font-size: 2.2rem; }
+      .hero-buttons      { flex-direction: column; }
+      .btn-hero-primary, .btn-hero-secondary { text-align: center; }
+      .crisis-bar        { bottom: 16px; right: 16px; left: 16px; max-width: none; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- ── NAV ─────────────────────────────────── -->
+<nav id="navbar">
+  <a href="#home" class="nav-logo">
+    <div class="dot">✦</div>
+    Stand Up
+  </a>
+  <ul class="nav-links">
+    <li><a href="#types">Types</a></li>
+    <li><a href="#signs">Warning Signs</a></li>
+    <li><a href="#help">How to Help</a></li>
+    <li><a href="#pledge">Pledge</a></li>
+    <li><a href="#resources">Resources</a></li>
+  </ul>
+  <a href="tel:18004880596" class="nav-cta">Get Help Now</a>
+  <button class="hamburger" id="hamburger" aria-label="Menu">
+    <span></span><span></span><span></span>
+  </button>
+</nav>
+<div class="mobile-menu" id="mobileMenu">
+  <a href="#types"     onclick="closeMenu()">Types of Bullying</a>
+  <a href="#signs"     onclick="closeMenu()">Warning Signs</a>
+  <a href="#help"      onclick="closeMenu()">How to Help</a>
+  <a href="#pledge"    onclick="closeMenu()">Take the Pledge</a>
+  <a href="#resources" onclick="closeMenu()">Resources</a>
+  <a href="tel:18004880596" class="m-cta">Get Help Now</a>
+</div>
+
+<!-- ── HERO ─────────────────────────────────── -->
+<section id="home">
+  <div class="hero-shapes">
+    <span></span><span></span><span></span>
+  </div>
+  <div class="hero-inner">
+    <div class="hero">
+      <div class="hero-badge"><div class="pulse"></div> Together We Can End Bullying</div>
+      <h1>Every child deserves to feel <em>safe, seen &amp; valued</em></h1>
+      <p>Bullying affects millions of young people every day. Whether you're experiencing it, witnessing it, or want to prevent it — you have the power to make a difference.</p>
+      <div class="hero-buttons">
+        <a href="#resources" class="btn-hero-primary">Get Help Now</a>
+        <a href="#pledge" class="btn-hero-secondary">Take the Pledge</a>
+      </div>
+    </div>
+    <div class="hero-visual">
+      <div class="hero-card">
+        <div class="hc-icon" style="background:rgba(251,146,60,.15)">🛡️</div>
+        <div class="hc-body">
+          <h4>You are not alone</h4>
+          <p>Support is available 24/7 — reach out anytime</p>
+        </div>
+      </div>
+      <div class="hero-card">
+        <div class="hc-icon" style="background:rgba(34,211,238,.15)">💙</div>
+        <div class="hc-body">
+          <h4>Speak up. It matters.</h4>
+          <p>Bystanders who intervene stop 57% of bullying episodes</p>
+        </div>
+      </div>
+      <div class="hero-card">
+        <div class="hc-icon" style="background:rgba(124,58,237,.15)">✊</div>
+        <div class="hc-body">
+          <h4>Change starts with you</h4>
+          <p>One act of kindness can transform a life</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── STATS ─────────────────────────────────── -->
+<section id="stats">
+  <div class="stats-inner">
+    <div class="stat-box fade-up">
+      <div class="stat-num" data-target="20">0%</div>
+      <div class="stat-label">of students are bullied each year in the US</div>
+    </div>
+    <div class="stat-box fade-up delay-1">
+      <div class="stat-num" data-target="57">0%</div>
+      <div class="stat-label">of incidents stop when a peer intervenes</div>
+    </div>
+    <div class="stat-box fade-up delay-2">
+      <div class="stat-num" data-target="70">0%</div>
+      <div class="stat-label">of students have seen bullying in their school</div>
+    </div>
+    <div class="stat-box fade-up delay-3">
+      <div class="stat-num" data-target="160" suffix="K+">0</div>
+      <div class="stat-label">students skip school daily due to fear of bullying</div>
+    </div>
+  </div>
+</section>
+
+<!-- ── TYPES ─────────────────────────────────── -->
+<section id="types">
+  <div class="section-inner">
+    <div class="fade-up">
+      <span class="section-label">Understanding Bullying</span>
+      <h2 class="section-title">Know the <em>four types</em> of bullying</h2>
+      <p class="section-sub">Bullying takes many forms. Recognizing each type is the first step to stopping it.</p>
+    </div>
+    <div class="types-grid">
+      <div class="type-card fade-up">
+        <div class="tc-icon">👊</div>
+        <div class="tc-body">
+          <h3>Physical Bullying</h3>
+          <p>Involves bodily harm or threats, damaging belongings, or forcing someone to do something against their will.</p>
+          <ul>
+            <li>Hitting, kicking, or pushing</li>
+            <li>Stealing or damaging property</li>
+            <li>Threatening gestures</li>
+          </ul>
+        </div>
+      </div>
+      <div class="type-card fade-up delay-1">
+        <div class="tc-icon">🗣️</div>
+        <div class="tc-body">
+          <h3>Verbal Bullying</h3>
+          <p>Using words to hurt, intimidate, or demean. Often dismissed as "just words," but the emotional impact is real and lasting.</p>
+          <ul>
+            <li>Name-calling and teasing</li>
+            <li>Taunting and insults</li>
+            <li>Threats and intimidation</li>
+          </ul>
+        </div>
+      </div>
+      <div class="type-card fade-up delay-2">
+        <div class="tc-icon">🤝</div>
+        <div class="tc-body">
+          <h3>Social / Relational Bullying</h3>
+          <p>Aimed at damaging someone's reputation or relationships, often subtle and hard to detect by adults.</p>
+          <ul>
+            <li>Excluding someone deliberately</li>
+            <li>Spreading rumors or lies</li>
+            <li>Public humiliation</li>
+          </ul>
+        </div>
+      </div>
+      <div class="type-card fade-up delay-3">
+        <div class="tc-icon">📱</div>
+        <div class="tc-body">
+          <h3>Cyberbullying</h3>
+          <p>Bullying that happens online or through digital devices — it follows victims home, making it impossible to escape.</p>
+          <ul>
+            <li>Harassing messages or posts</li>
+            <li>Sharing private photos</li>
+            <li>Creating fake accounts</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── WARNING SIGNS ──────────────────────────── -->
+<section id="signs">
+  <div class="section-inner">
+    <div class="signs-layout">
+      <div>
+        <div class="fade-up">
+          <span class="section-label">Warning Signs</span>
+          <h2 class="section-title">How to tell if someone is <em>being bullied</em></h2>
+          <p class="section-sub">Many victims don't speak up. Knowing the signs means you can step in before it gets worse.</p>
+        </div>
+        <div class="accordion fade-up">
+          <div class="acc-item open">
+            <button class="acc-trigger" onclick="toggleAcc(this)">
+              Changes in behavior or mood
+              <span class="chevron">▾</span>
+            </button>
+            <div class="acc-body">
+              A child who was once outgoing may become withdrawn, anxious, or irritable. Watch for sudden personality shifts, increased sadness, or unexplained mood swings — especially after school or screen time.
+            </div>
+          </div>
+          <div class="acc-item">
+            <button class="acc-trigger" onclick="toggleAcc(this)">
+              Reluctance to go to school
+              <span class="chevron">▾</span>
+            </button>
+            <div class="acc-body">
+              Frequent complaints of headaches, stomachaches, or feeling sick — especially on school days — can be a sign that a child is trying to avoid a situation at school. They may fake illness or beg to stay home.
+            </div>
+          </div>
+          <div class="acc-item">
+            <button class="acc-trigger" onclick="toggleAcc(this)">
+              Unexplained physical marks or lost items
+              <span class="chevron">▾</span>
+            </button>
+            <div class="acc-body">
+              Torn clothing, unexplained bruises, or missing belongings — especially when the child can't give a clear explanation — may be signs of physical bullying. Take these signs seriously and follow up gently.
+            </div>
+          </div>
+          <div class="acc-item">
+            <button class="acc-trigger" onclick="toggleAcc(this)">
+              Changes in digital habits
+              <span class="chevron">▾</span>
+            </button>
+            <div class="acc-body">
+              Suddenly stopping device use, appearing upset after going online, hiding screens, or being secretive about online activity can signal cyberbullying. Don't punish the device — create a safe space to talk.
+            </div>
+          </div>
+          <div class="acc-item">
+            <button class="acc-trigger" onclick="toggleAcc(this)">
+              Loss of friends or social withdrawal
+              <span class="chevron">▾</span>
+            </button>
+            <div class="acc-body">
+              A child who no longer seems to have friends, stops being invited to events, or avoids group activities may be experiencing social exclusion — one of the most painful and overlooked forms of bullying.
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="signs-aside fade-up delay-2">
+        <h3>If you see bullying, act.</h3>
+        <p>Bystanders have enormous power to stop it. Here's what you can do right now:</p>
+        <div class="help-step">
+          <div class="step-num">1</div>
+          <div>
+            <h4>Don't ignore it</h4>
+            <p>Silence sends the message that bullying is acceptable. Your voice makes a difference.</p>
+          </div>
+        </div>
+        <div class="help-step">
+          <div class="step-num">2</div>
+          <div>
+            <h4>Support the target</h4>
+            <p>A simple "I'm here for you" can break the isolation a victim feels. Check in privately.</p>
+          </div>
+        </div>
+        <div class="help-step">
+          <div class="step-num">3</div>
+          <div>
+            <h4>Report to a trusted adult</h4>
+            <p>Tell a parent, teacher, or counselor. Reporting is not "tattling" — it's protecting someone.</p>
+          </div>
+        </div>
+        <div class="help-step">
+          <div class="step-num">4</div>
+          <div>
+            <h4>Don't retaliate</h4>
+            <p>Fighting back escalates the situation. Focus on getting safe and getting help instead.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── HOW TO HELP ────────────────────────────── -->
+<section id="help">
+  <div class="section-inner">
+    <div class="fade-up">
+      <span class="section-label">How to Help</span>
+      <h2 class="section-title">Guidance for <em>everyone</em></h2>
+      <p class="section-sub">Whether you're a student, parent, or educator — everyone has a role to play in stopping bullying.</p>
+    </div>
+    <div class="tabs-nav fade-up">
+      <button class="tab-btn active" onclick="switchTab('students', this)">For Students</button>
+      <button class="tab-btn" onclick="switchTab('parents', this)">For Parents</button>
+      <button class="tab-btn" onclick="switchTab('educators', this)">For Educators</button>
+    </div>
+
+    <div id="tab-students" class="tab-panel active">
+      <div class="tip-card fade-up"><div class="tip-icon">🤝</div><h4>Be an upstander</h4><p>When you see bullying, speak up. Stand beside the person being targeted and let them know they're not alone. Your bravery encourages others to do the same.</p></div>
+      <div class="tip-card fade-up delay-1"><div class="tip-icon">💬</div><h4>Tell a trusted adult</h4><p>If you or someone you know is being bullied, tell a teacher, parent, or school counselor. Don't carry it alone — adults can take action that you can't.</p></div>
+      <div class="tip-card fade-up delay-2"><div class="tip-icon">❤️</div><h4>Be kind online</h4><p>Think before you post. If you wouldn't say it to someone's face, don't type it. Use your social media presence to uplift, not tear down.</p></div>
+    </div>
+    <div id="tab-parents" class="tab-panel">
+      <div class="tip-card fade-up"><div class="tip-icon">👂</div><h4>Listen without judgment</h4><p>Create a safe space where your child feels comfortable sharing. Avoid dismissing their experience or placing blame — just listen and validate.</p></div>
+      <div class="tip-card fade-up delay-1"><div class="tip-icon">🏫</div><h4>Work with the school</h4><p>Contact teachers and administrators. Document incidents with dates and details. Request a meeting to create a safety plan and follow up regularly.</p></div>
+      <div class="tip-card fade-up delay-2"><div class="tip-icon">📱</div><h4>Monitor online activity</h4><p>Use parental controls and keep devices in common areas. Teach your child about digital safety, and check in regularly about their online relationships.</p></div>
+    </div>
+    <div id="tab-educators" class="tab-panel">
+      <div class="tip-card fade-up"><div class="tip-icon">📋</div><h4>Enforce clear policies</h4><p>Establish and consistently enforce zero-tolerance anti-bullying policies. Make sure every student understands the consequences and where to report incidents.</p></div>
+      <div class="tip-card fade-up delay-1"><div class="tip-icon">🧭</div><h4>Build an inclusive culture</h4><p>Foster empathy and respect through classroom activities, discussions, and modeling kind behavior. Celebrate differences and create belonging for every student.</p></div>
+      <div class="tip-card fade-up delay-2"><div class="tip-icon">🔍</div><h4>Watch for warning signs</h4><p>Learn to recognize behavioral and emotional signals. Intervene early, check in with students who seem isolated, and connect them with counseling resources.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- ── PLEDGE ─────────────────────────────────── -->
+<section id="pledge">
+  <div class="section-inner">
+    <div class="fade-up">
+      <span class="section-label" style="color:#c4b5fd;">Take the Pledge</span>
+      <h2 class="section-title">Make your <em style="color:#fb923c;">commitment</em> official</h2>
+      <p class="section-sub">Join thousands of people who have pledged to stand against bullying and create safer communities.</p>
+    </div>
+    <div class="pledge-box fade-up delay-1">
+      <p class="pledge-text">
+        "I pledge to treat everyone with kindness and respect. I will speak up against bullying, support those who are targeted, and help create a world where every person feels safe, seen, and valued. I will be an upstander, not a bystander."
+      </p>
+      <div id="pledgeForm">
+        <div class="pledge-form">
+          <input type="text" id="pledgeName" placeholder="Enter your first name" maxlength="40" autocomplete="given-name">
+          <button onclick="takePledge()">Sign the Pledge ✊</button>
+        </div>
+        <p id="pledgeError" style="color:#fca5a5;font-size:.85rem;margin-top:10px;display:none;">Please enter your name to sign the pledge.</p>
+      </div>
+      <div class="pledge-confirm" id="pledgeConfirm">
+        <div class="checkmark">✓</div>
+        <h3 id="pledgeThanks">Thank you, !</h3>
+        <p>Your pledge has been recorded. You are now part of the movement.</p>
+      </div>
+      <p class="pledgers-count">🙌 <strong id="pledgeCount">12,847</strong> people have already signed the pledge today.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ── RESOURCES ─────────────────────────────── -->
+<section id="resources">
+  <div class="section-inner">
+    <div class="fade-up">
+      <span class="section-label">Get Help</span>
+      <h2 class="section-title">Real support, <em>right now</em></h2>
+      <p class="section-sub">If you or someone you know needs help, these organizations provide free, confidential support around the clock.</p>
+    </div>
+    <div class="resources-grid">
+      <div class="res-card fade-up">
+        <div class="res-icon">🆘</div>
+        <h3>Crisis Text Line</h3>
+        <p>Free, 24/7 crisis support via text. Text HOME to reach a trained crisis counselor instantly.</p>
+        <a href="sms:741741?body=HOME" class="res-phone">📱 Text HOME to 741741</a>
+      </div>
+      <div class="res-card fade-up delay-1">
+        <div class="res-icon">☎️</div>
+        <h3>STOMP Out Bullying Hotline</h3>
+        <p>Dedicated helpline for young people experiencing bullying. Confidential support every day.</p>
+        <a href="tel:18004880596" class="res-phone">📞 1-800-488-0596</a>
+      </div>
+      <div class="res-card fade-up delay-2">
+        <div class="res-icon">🧠</div>
+        <h3>988 Suicide & Crisis Lifeline</h3>
+        <p>Call or text 988 for free, confidential support if you're feeling overwhelmed or unsafe.</p>
+        <a href="tel:988" class="res-phone">📞 Call or Text 988</a>
+      </div>
+      <div class="res-card fade-up">
+        <div class="res-icon">💜</div>
+        <h3>The Trevor Project</h3>
+        <p>Crisis intervention and suicide prevention for LGBTQ+ young people ages 13–24.</p>
+        <a href="tel:18664887386" class="res-phone">📞 1-866-488-7386</a>
+      </div>
+      <div class="res-card fade-up delay-1">
+        <div class="res-icon">🌐</div>
+        <h3>StopBullying.gov</h3>
+        <p>Official US government resource with information, reporting tools, and guidance for schools.</p>
+        <a href="https://www.stopbullying.gov" class="res-phone" target="_blank" rel="noopener">🔗 Visit Website</a>
+      </div>
+      <div class="res-card fade-up delay-2">
+        <div class="res-icon">🛡️</div>
+        <h3>National Center for Victims</h3>
+        <p>Support services and legal resources for victims of all crimes including bullying and harassment.</p>
+        <a href="tel:18557272220" class="res-phone">📞 1-855-4-VICTIM</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── FOOTER ─────────────────────────────────── -->
+<footer>
+  <div class="footer-inner">
+    <div class="footer-brand">
+      <a href="#home" class="logo">
+        <div class="dot" style="width:28px;height:28px;background:linear-gradient(135deg,#7c3aed,#ea580c);border-radius:50%;display:flex;align-items:center;justify-content:center;color:#fff;font-size:.8rem;font-weight:900;">✦</div>
+        Stand Up
+      </a>
+      <p>Every person deserves to live, learn, and grow without fear. We believe that together, we can build kinder communities for everyone.</p>
+    </div>
+    <div class="footer-col">
+      <h4>Quick Links</h4>
+      <ul>
+        <li><a href="#types">Types of Bullying</a></li>
+        <li><a href="#signs">Warning Signs</a></li>
+        <li><a href="#help">How to Help</a></li>
+        <li><a href="#pledge">Take the Pledge</a></li>
+        <li><a href="#resources">Get Resources</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h4>Emergency Help</h4>
+      <ul>
+        <li><a href="tel:911">Emergency: 911</a></li>
+        <li><a href="tel:988">Crisis Line: 988</a></li>
+        <li><a href="sms:741741?body=HOME">Crisis Text: 741741</a></li>
+        <li><a href="tel:18004880596">STOMP Out Bullying</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <span>© 2025 <strong>Stand Up · Stop Bullying</strong>. Built with purpose.</span>
+    <span>If you're in crisis, please call <strong>988</strong> immediately.</span>
+  </div>
+</footer>
+
+<!-- ── CRISIS FLOATING BUTTON ────────────────── -->
+<a href="tel:988" class="crisis-bar" id="crisisBar">
+  <span class="crisis-icon">🆘</span>
+  <div>
+    <strong>Need help now?</strong>
+    <small>Call or text 988 — free & confidential</small>
+  </div>
+  <button class="crisis-close" onclick="dismissCrisis(event)" aria-label="Dismiss">✕</button>
+</a>
+
+<script>
+  // ── Sticky nav shadow
+  const navbar = document.getElementById('navbar');
+  window.addEventListener('scroll', () => {
+    navbar.classList.toggle('scrolled', window.scrollY > 10);
+  });
+
+  // ── Hamburger menu
+  const hamburger = document.getElementById('hamburger');
+  const mobileMenu = document.getElementById('mobileMenu');
+  hamburger.addEventListener('click', () => {
+    hamburger.classList.toggle('open');
+    mobileMenu.classList.toggle('open');
+  });
+  function closeMenu() {
+    hamburger.classList.remove('open');
+    mobileMenu.classList.remove('open');
+  }
+  window.addEventListener('click', e => {
+    if (!navbar.contains(e.target)) closeMenu();
+  });
+
+  // ── Intersection Observer: fade-up + stat counters
+  const io = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (!entry.isIntersecting) return;
+      entry.target.classList.add('visible');
+      io.unobserve(entry.target);
+
+      // stat counter
+      const el = entry.target.querySelector('[data-target]');
+      if (el) animateCount(el);
+    });
+  }, { threshold: 0.18 });
+
+  document.querySelectorAll('.fade-up').forEach(el => io.observe(el));
+  document.querySelectorAll('.stat-box').forEach(el => io.observe(el));
+
+  function animateCount(el) {
+    const target = parseInt(el.dataset.target, 10);
+    const suffix = el.dataset.suffix || '%';
+    const duration = 1600;
+    const start = performance.now();
+    function step(now) {
+      const p = Math.min((now - start) / duration, 1);
+      const ease = 1 - Math.pow(1 - p, 3);
+      const val = Math.round(ease * target);
+      el.textContent = val + suffix;
+      if (p < 1) requestAnimationFrame(step);
+    }
+    requestAnimationFrame(step);
+  }
+
+  // ── Accordion
+  function toggleAcc(trigger) {
+    const item = trigger.closest('.acc-item');
+    const isOpen = item.classList.contains('open');
+    document.querySelectorAll('.acc-item.open').forEach(i => i.classList.remove('open'));
+    if (!isOpen) item.classList.add('open');
+  }
+
+  // ── Tabs
+  function switchTab(id, btn) {
+    document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
+    document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+    document.getElementById('tab-' + id).classList.add('active');
+    btn.classList.add('active');
+  }
+
+  // ── Pledge
+  function takePledge() {
+    const name = document.getElementById('pledgeName').value.trim();
+    const errEl = document.getElementById('pledgeError');
+    if (!name) { errEl.style.display = 'block'; return; }
+    errEl.style.display = 'none';
+    document.getElementById('pledgeThanks').textContent = `Thank you, ${name}!`;
+    document.getElementById('pledgeForm').style.display = 'none';
+    document.getElementById('pledgeConfirm').style.display = 'block';
+    const countEl = document.getElementById('pledgeCount');
+    const cur = parseInt(countEl.textContent.replace(/,/g, ''), 10);
+    countEl.textContent = (cur + 1).toLocaleString();
+  }
+  document.getElementById('pledgeName').addEventListener('keydown', e => {
+    if (e.key === 'Enter') takePledge();
+  });
+
+  // ── Crisis bar dismiss
+  function dismissCrisis(e) {
+    e.preventDefault(); e.stopPropagation();
+    document.getElementById('crisisBar').style.display = 'none';
+  }
+</script>
+</body>
+</html>
